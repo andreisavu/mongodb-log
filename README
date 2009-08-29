@@ -2,10 +2,18 @@
 MongoLog : Centralized Logging made simple using MongoDB
 --------------------------------------------------------
 
+Usage
+-----
+
+Check the samples folder.
+
 Why centralized logging?
 ------------------------
 
-- easy troubleshouting
+- easy troubleshouting:
+    - having the answers to why? quickly and accurately
+    - for troubleshouting while the system is down
+    - removed risk of loss of log information
 - resource tracking
 - security
 
