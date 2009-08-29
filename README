@@ -2,6 +2,30 @@
 MongoLog : Centralized Logging made simple using MongoDB
 --------------------------------------------------------
 
-Push all your messages to one central server and use
-a nice vizualization tool on them.
+Why centralized logging?
+------------------------
+
+- easy troubleshouting
+- resource tracking
+- security
+
+What is MongoDB?
+----------------
+
+"Mongo is a high-performance, open source, schema-free document-oriented database."
+
+It can eficiently store arbitrary JSON objects.
+You can read more at http://www.mongodb.org/
+
+
+Why MongoDB is great for logging?
+---------------------------------
+
+- MongoDB inserts can be done asynchronously 
+- old log data automatically LRU's out thanks to capped collections
+- it's fast enough for the problem 
+- document-oriented / JSON is a great format for log information
+
+Read more about this subject on the mongoDB blog: http://blog.mongodb.org
+
 

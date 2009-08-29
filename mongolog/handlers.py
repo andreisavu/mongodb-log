@@ -1,6 +1,7 @@
-"""
-Log handle for the standard python logging mechanism
-"""
 
+import logging
 
+class MongoHandler(logging.Handler):
+    def emit(self,record):
+        print record
 
