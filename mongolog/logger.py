@@ -25,7 +25,7 @@ class MongoLogRecord(logging.LogRecord):
             'exc_info' : exc_info,
             'user' : self.username,
             'funcname' : self.funcname,
-            'time' : datetime.utcnow()
+            'time' : datetime.now()
         }
 
 class MongoLogger(logging.getLoggerClass()):
