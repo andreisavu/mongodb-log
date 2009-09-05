@@ -1,5 +1,10 @@
 
+import sys
+sys.path.append('..')
+
 import logging
+
+from mongolog.handlers import MongoHandler
 
 if __name__ == '__main__':
 
@@ -13,6 +18,7 @@ if __name__ == '__main__':
     ch.setFormatter(formatter)
 
     log.addHandler(ch)
+    log.addHandler(MongoHandler())
 
     log.debug("debug message")
     log.info("info message")
