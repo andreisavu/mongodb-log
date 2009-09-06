@@ -11,7 +11,7 @@ if __name__ == '__main__':
     log = logging.getLogger('example')
     log.setLevel(logging.DEBUG)
 
-    log.addHandler(MongoHandler())
+    log.addHandler(MongoHandler('mongolog', 'log'))
 
     log.debug("debug message")
     log.info("info message")

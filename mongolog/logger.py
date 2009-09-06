@@ -21,7 +21,7 @@ class MongoLogRecord(logging.LogRecord):
             'file' : fn,
             'line_no' : lno,
             'msg' : msg,
-            'args' : args,
+            'args' : list(args),
             'exc_info' : exc_info,
             'user' : self.username,
             'funcname' : self.funcname,

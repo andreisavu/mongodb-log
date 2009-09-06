@@ -2,10 +2,39 @@
 MongoLog : Centralized Logging made simple using MongoDB
 --------------------------------------------------------
 
+Setup
+-----
+
+Before using this handler for logging you will need to create
+a capped collection on the server.
+
+You can do this using the following commands in the mongo shell:
+
+> use mongolog
+> db.createCollection('log', {capped:true, max:100000})
+
+... and you are ready. Running stats() on log collection should 
+show something like this:
+
+> db.log.stats()
+{"ns" : "mongolog.log" , "count" : 0 , "size" : 0 , "storageSize" : 8192 , "nindexes" : 0 , "capped" : 1 , "max" : 10 , "ok" : 1}
+
+
 Usage
 -----
 
-Check the samples folder.
+import logging
+from mongolog.handlers import MongoHandler
+
+log = logging.getLogger('demo')
+log.setLevel(logging.DEBUG)
+
+log.addHandler(MongoHandler(db='mongolog', collection='log')
+
+log.debug('Some message')
+
+
+Check the samples folder for more details
 
 Why centralized logging?
 ------------------------
@@ -36,4 +65,5 @@ Why MongoDB is great for logging?
 
 Read more about this subject on the mongoDB blog: http://blog.mongodb.org
 
+Have fun!
 
