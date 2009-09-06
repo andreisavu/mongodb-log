@@ -1,0 +1,6 @@
+
+- mongo server authentication / similar api as mongodb
+- install script should also install pymongo as requirement
+- implement tests for basic functionality
+- test for error conditions: server not available and similar stuff
+
