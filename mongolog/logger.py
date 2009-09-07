@@ -6,7 +6,6 @@ import os
 from datetime import datetime
 
 __all__ = ['MongoLogRecord', 'MongoLogger']
-__author__ = 'Andrei Savu <contact [at] andreisavu [dot] ro>'
 
 class MongoLogRecord(logging.LogRecord):
     def __init__(self, name, level, fn, lno, msg, args,exc_info, func, extra=None):

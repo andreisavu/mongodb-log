@@ -4,6 +4,7 @@ sys.path.append('..')
 
 import logging
 
+from pymongo.connection import Connection
 from mongolog.handlers import MongoHandler
 
 if __name__ == '__main__':
@@ -11,11 +12,11 @@ if __name__ == '__main__':
     log = logging.getLogger('example')
     log.setLevel(logging.DEBUG)
 
-    log.addHandler(MongoHandler('mongolog', 'log'))
+    log.addHandler(MongoHandler.to('mongolog', 'log'))
 
-    log.debug("debug message")
-    log.info("info message")
-    log.warn("warn message")
-    log.error("error message")
-    log.critical("critical message")
+    log.debug("1 - debug message")
+    log.info("2 - info message")
+    log.warn("3 - warn message")
+    log.error("4 - error message")
+    log.critical("5 - critical message")
 
