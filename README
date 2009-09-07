@@ -29,7 +29,7 @@ from mongolog.handlers import MongoHandler
 log = logging.getLogger('demo')
 log.setLevel(logging.DEBUG)
 
-log.addHandler(MongoHandler(db='mongolog', collection='log')
+log.addHandler(MongoHandler.to(db='mongolog', collection='log'))
 
 log.debug('Some message')
 
