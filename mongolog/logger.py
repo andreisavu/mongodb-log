@@ -8,6 +8,7 @@ from datetime import datetime
 __all__ = ['MongoLogRecord', 'MongoLogger']
 
 class MongoLogRecord(logging.LogRecord):
+
     def __init__(self, name, level, fn, lno, msg, args,exc_info, func, extra=None):
         logging.LogRecord.__init__(self, name, level, fn, lno, msg, args,exc_info, func)
 
@@ -28,6 +29,7 @@ class MongoLogRecord(logging.LogRecord):
         }
 
 class MongoLogger(logging.getLoggerClass()):
+
     def makeRecord(self, *args, **kwargs):
         return MongoLogRecord(*args, **kwargs)
 
