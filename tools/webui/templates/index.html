@@ -18,6 +18,7 @@ Latest 100 log message in reverse chronological order:
 <tr>
     <th>Level</th>
     <th>Logger</th>
+    <th>Host</th>
     <th>LineNo</th>
     <th>FuncName</th>
     <th>File</th>
@@ -29,6 +30,7 @@ $for record in logs:
     <tr>
     <td>$record['level']</td>
     <td>$record['name']</td>
+    <td>$record['host']</td>
     <td>$record['line_no']</td>
     <td>$record['funcname']</td>
     <td>$record['file']</td>

@@ -22,7 +22,13 @@ class index:
         args = {}
         if level and level in ['info', 'debug', 'warning', 'error', 'critical']:
             args = {'level':level}
-        logs = db.find(args, limit=100).sort('$natural', DESCENDING)
+
+        def fill_missing(el):
+            if not 'host' in el:
+                el['host'] = '(unknow)'
+            return el            
+        logs = map(fill_missing, db.find(args, limit=100).sort('$natural', DESCENDING))
+
         return render.index(logs)
 
 if __name__ == '__main__':

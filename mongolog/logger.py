@@ -3,6 +3,7 @@ import logging
 import sys
 import os
 
+from socket import gethostname
 from datetime import datetime
 
 __all__ = ['MongoLogRecord', 'MongoLogger']
@@ -25,7 +26,8 @@ class MongoLogRecord(logging.LogRecord):
             'exc_info' : exc_info,
             'user' : self.username,
             'funcname' : self.funcname,
-            'time' : datetime.now()
+            'time' : datetime.now(),
+            'host' : gethostname()
         }
 
 class MongoLogger(logging.getLoggerClass()):
