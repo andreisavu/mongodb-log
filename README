@@ -6,7 +6,7 @@ Setup
 -----
 
 Before using this handler for logging you will need to create
-a capped collection on the server.
+a capped collection on the mongodb server.
 
 You can do this using the following commands in the mongo shell:
 

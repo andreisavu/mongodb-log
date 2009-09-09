@@ -1,8 +1,40 @@
-$def with ()
+$def with (logs)
 
-Filters: [info] [debug] [warning] [error] [critical] 
+Filters: 
+[<a href="/">all</a>]
+[<a href="/info">info</a>] 
+[<a href="/debug">debug</a>] 
+[<a href="/warning">warning</a>] 
+[<a href="/error">error</a>] 
+[<a href="/critical">critical</a>] 
 
 <br /><br />
 
-Paginated datagrid from database
+Latest 100 log message in reverse chronological order:
+
+<br /><br />
+
+<table border="1">
+<tr>
+    <th>Level</th>
+    <th>Logger</th>
+    <th>LineNo</th>
+    <th>FuncName</th>
+    <th>File</th>
+    <th>User</th>
+    <th>Message</th>
+    <th>Time</th>
+</tr>
+$for record in logs:
+    <tr>
+    <td>$record['level']</td>
+    <td>$record['name']</td>
+    <td>$record['line_no']</td>
+    <td>$record['funcname']</td>
+    <td>$record['file']</td>
+    <td>$record['user']</td>
+    <td>$record['msg']</td>
+    <td>$record['time']</td>
+    </tr>
+</table>
 
