@@ -3,6 +3,16 @@ import logging
 
 from pymongo.connection import Connection
 
+
+class MongoFormatter(logging.Formatter):
+    def format(self, record):
+        """Format exception object as a string"""
+        data = record._raw.copy()
+        if 'exc_info' in data and data['exc_info']:
+            data['exc_info'] = self.formatException(data['exc_info'])
+        return data
+    
+
 class MongoHandler(logging.Handler):
     """ Custom log handler
 
@@ -19,8 +29,9 @@ class MongoHandler(logging.Handler):
         """ Init log handler and store the collection handle """
         logging.Handler.__init__(self, level)
         self.collection = collection
+        self.formatter = MongoFormatter()
 
     def emit(self,record):
         """ Store the record to the collection. Async insert """
-        self.collection.save(record._raw)
+        self.collection.save(self.format(record))
 

@@ -34,5 +34,21 @@ class TestHandler(unittest.TestCase):
 
         r = self.collection.find_one({'level':'debug', 'msg':'test'})
         self.assertEquals(r['msg'], 'test')
+        
+    def testLoggingException(self):
+        """ Logging example with exception """
+        log = logging.getLogger('example')
+        log.setLevel(logging.DEBUG)
+
+        log.addHandler(MongoHandler(self.collection))
+        
+        try:
+            1/0
+        except ZeroDivisionError:
+            log.error('test', exc_info=True)
+
+        r = self.collection.find_one({'level':'error', 'msg':'test'})
+        self.assertEquals(r['msg'], 'test')
+        assert r['exc_info'].startswith('Traceback')
 
 
