@@ -11,15 +11,16 @@ a capped collection on the mongodb server.
 You can do this using the following commands in the mongo shell:
 
         > use mongolog
-        > db.createCollection('log', {capped:true, max:100000})
+        > db.createCollection('log', {capped:true, size:100000})
 
 ... and you are ready. Running stats() on log collection should 
 show something like this:
 
         > db.log.stats()
-        {"ns" : "mongolog.log" , "count" : 0 , "size" : 0 , 
-        "storageSize" : 8192 , "nindexes" : 0 , "capped" : 1 , 
-        "max" : 10 , "ok" : 1}
+        { "ns" : "mongolog.log", "count" : 0, "size" : 0, "storageSize" :
+        100096, "numExtents" : 1, "nindexes" : 0, "lastExtentSize" : 100096,
+        "paddingFactor" : 1, "flags" : 0, "totalIndexSize" : 0, "indexSizes" : {
+        }, "capped" : 1, "max" : 2147483647, "ok" : 1 }
 
 
 Usage
