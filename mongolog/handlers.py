@@ -20,10 +20,10 @@ class MongoHandler(logging.Handler):
     designed to be used with the standard python logging mechanism.
     """
 
-    @staticmethod
-    def to(db, collection, host='localhost', port=None, level=logging.NOTSET):
+    @classmethod
+    def to(cls, db, collection, host='localhost', port=None, level=logging.NOTSET):
         """ Create a handler for a given  """
-        return MongoHandler(Connection(host, port)[db][collection])
+        return cls(Connection(host, port)[db][collection])
         
     def __init__(self, collection, level=logging.NOTSET):
         """ Init log handler and store the collection handle """
