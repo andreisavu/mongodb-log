@@ -25,7 +25,7 @@ class TestHandler(unittest.TestCase):
 
     def testLogging(self):
         """ Simple logging example """
-        log = logging.getLogger('example')
+        log = logging.getLogger('')
         log.setLevel(logging.DEBUG)
 
         log.addHandler(MongoHandler(self.collection))
@@ -37,11 +37,11 @@ class TestHandler(unittest.TestCase):
         
     def testLoggingException(self):
         """ Logging example with exception """
-        log = logging.getLogger('example')
+        log = logging.getLogger('')
         log.setLevel(logging.DEBUG)
 
         log.addHandler(MongoHandler(self.collection))
-        
+
         try:
             1/0
         except ZeroDivisionError:

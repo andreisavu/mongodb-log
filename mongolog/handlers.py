@@ -2,12 +2,19 @@
 import logging
 
 from pymongo.connection import Connection
+from mongolog.logger import MongoLogRecord
 
 
 class MongoFormatter(logging.Formatter):
     def format(self, record):
         """Format exception object as a string"""
-        data = record._raw.copy()
+
+        try:
+            data = record._raw.copy()
+        except AttributeError:
+            # root logger wont emit custom LogRecord, we'll do that manually
+            data = MongoLogRecord.create_from_record(record)._raw.copy()
+
         if 'exc_info' in data and data['exc_info']:
             data['exc_info'] = self.formatException(data['exc_info'])
         return data

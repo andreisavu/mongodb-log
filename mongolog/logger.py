@@ -30,6 +30,19 @@ class MongoLogRecord(logging.LogRecord):
             'host' : gethostname()
         }
 
+    @staticmethod
+    def create_from_record(record):
+        if isinstance(record, MongoLogRecord):
+            return record
+        return MongoLogRecord(record.name,
+                              level=record.levelno,
+                              func=record.funcName,
+                              lno=record.lineno,
+                              msg=record.msg,
+                              args=record.args,
+                              exc_info=record.exc_info,
+                              fn=record.pathname)
+
 class MongoLogger(logging.getLoggerClass()):
 
     def makeRecord(self, *args, **kwargs):
