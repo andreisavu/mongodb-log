@@ -1,20 +1,20 @@
-
 import logging
-
+import getpass
+from datetime import datetime
+from socket import gethostname
 from pymongo.connection import Connection
-from mongolog.logger import MongoLogRecord
+
 
 
 class MongoFormatter(logging.Formatter):
     def format(self, record):
         """Format exception object as a string"""
-
-        try:
-            data = record._raw.copy()
-        except AttributeError:
-            # root logger wont emit custom LogRecord, we'll do that manually
-            data = MongoLogRecord.create_from_record(record)._raw.copy()
-
+        data = record.__dict__.copy()
+        data.update(
+            username=getpass.getuser(),
+            time=datetime.now(),
+            host=gethostname(),
+        )
         if 'exc_info' in data and data['exc_info']:
             data['exc_info'] = self.formatException(data['exc_info'])
         return data
@@ -30,8 +30,8 @@ class MongoHandler(logging.Handler):
     @classmethod
     def to(cls, db, collection, host='localhost', port=None, level=logging.NOTSET):
         """ Create a handler for a given  """
-        return cls(Connection(host, port)[db][collection])
-        
+        return cls(Connection(host, port)[db][collection], level)
+
     def __init__(self, collection, level=logging.NOTSET):
         """ Init log handler and store the collection handle """
         logging.Handler.__init__(self, level)
