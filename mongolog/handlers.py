@@ -3,7 +3,7 @@ import getpass
 from datetime import datetime
 from socket import gethostname
 from pymongo.connection import Connection
-
+from bson import InvalidDocument
 
 
 class MongoFormatter(logging.Formatter):
@@ -14,6 +14,8 @@ class MongoFormatter(logging.Formatter):
             username=getpass.getuser(),
             time=datetime.now(),
             host=gethostname(),
+            message=record.msg % record.args,
+            args=tuple(unicode(arg) for arg in record.args)
         )
         if 'exc_info' in data and data['exc_info']:
             data['exc_info'] = self.formatException(data['exc_info'])
@@ -40,5 +42,8 @@ class MongoHandler(logging.Handler):
 
     def emit(self,record):
         """ Store the record to the collection. Async insert """
-        self.collection.save(self.format(record))
+        try:
+            self.collection.save(self.format(record))
+        except InvalidDocument, e:
+            logging.error("Unable to save log record: %s", e.message ,exc_info=True)
 
