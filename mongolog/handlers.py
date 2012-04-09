@@ -10,11 +10,15 @@ class MongoFormatter(logging.Formatter):
     def format(self, record):
         """Format exception object as a string"""
         data = record.__dict__.copy()
+
+        if record.args:
+            record.msg = record.msg % record.args
+
         data.update(
             username=getpass.getuser(),
             time=datetime.now(),
             host=gethostname(),
-            message=record.msg % record.args,
+            message=record.msg,
             args=tuple(unicode(arg) for arg in record.args)
         )
         if 'exc_info' in data and data['exc_info']:
