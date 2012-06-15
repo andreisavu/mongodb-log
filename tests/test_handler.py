@@ -1,4 +1,3 @@
-
 import unittest
 import logging
 
@@ -6,8 +5,11 @@ from pymongo.connection import Connection
 
 from mongolog.handlers import MongoHandler
 
-class TestHandler(unittest.TestCase):
 
+class TestRootLoggerHandler(unittest.TestCase):
+    """
+    Test Handler attached to RootLogger
+    """
     def setUp(self):
         """ Create an empty database that could be used for logging """
         self.db_name = '_mongolog_test'
@@ -25,31 +27,29 @@ class TestHandler(unittest.TestCase):
 
     def testLogging(self):
         """ Simple logging example """
-        log = logging.getLogger('example')
+        log = logging.getLogger('')
         log.setLevel(logging.DEBUG)
 
         log.addHandler(MongoHandler(self.collection))
-
         log.debug('test')
 
-        r = self.collection.find_one({'level':'debug', 'msg':'test'})
+        r = self.collection.find_one({'levelname':'DEBUG', 'msg':'test'})
         self.assertEquals(r['msg'], 'test')
-        
+
     def testLoggingException(self):
         """ Logging example with exception """
-        log = logging.getLogger('example')
+        log = logging.getLogger('')
         log.setLevel(logging.DEBUG)
 
         log.addHandler(MongoHandler(self.collection))
-        
+
         try:
             1/0
         except ZeroDivisionError:
-            log.error('test', exc_info=True)
+            log.error('test zero division', exc_info=True)
 
-        r = self.collection.find_one({'level':'error', 'msg':'test'})
-        self.assertEquals(r['msg'], 'test')
-        assert r['exc_info'].startswith('Traceback')
+        r = self.collection.find_one({'levelname':'ERROR', 'msg':'test zero division'})
+        self.assertTrue(r['exc_info'].startswith('Traceback'))
 
     def testQueryableMessages(self):
         """ Logging example with dictionary """
