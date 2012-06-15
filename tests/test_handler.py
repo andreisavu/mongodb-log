@@ -20,7 +20,7 @@ class TestHandler(unittest.TestCase):
 
     def tearDown(self):
         """ Drop used database """
-        self.conn.drop_database('_mongolog_test')
+        self.conn.drop_database(self.db_name)
         
 
     def testLogging(self):
@@ -51,4 +51,22 @@ class TestHandler(unittest.TestCase):
         self.assertEquals(r['msg'], 'test')
         assert r['exc_info'].startswith('Traceback')
 
+    def testQueryableMessages(self):
+        """ Logging example with dictionary """
+        log = logging.getLogger('query')
+        log.setLevel(logging.DEBUG)
 
+        log.addHandler(MongoHandler(self.collection))
+
+        log.info({'address': '340 N 12th St', 'state': 'PA', 'country': 'US'})
+        log.info({'address': '340 S 12th St', 'state': 'PA', 'country': 'US'})
+        log.info({'address': '1234 Market St', 'state': 'PA', 'country': 'US'})
+    
+        cursor = self.collection.find({'level':'info', 'msg.address': '340 N 12th St'})
+        self.assertEquals(cursor.count(), 1, "Expected query to return 1 "
+            "message; it returned %d" % cursor.count())
+        self.assertEquals(cursor[0]['msg']['address'], '340 N 12th St')
+
+        cursor = self.collection.find({'level':'info', 'msg.state': 'PA'})
+
+        self.assertEquals(cursor.count(), 3, "Didn't find all three documents")
